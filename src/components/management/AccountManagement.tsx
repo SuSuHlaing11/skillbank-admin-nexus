@@ -49,6 +49,15 @@ const mockUsers = [
 export const AccountManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
+
+  const filteredUsers = mockUsers.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = filterType === 'all' || user.type === filterType;
+    const matchesStatus = filterStatus === 'all' || user.status === filterStatus;
+    return matchesSearch && matchesType && matchesStatus;
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -69,34 +78,50 @@ export const AccountManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Account Management</h1>
-          <p className="text-gray-600 mt-2">Manage all user accounts and permissions</p>
+          <h1 className="text-3xl font-bold text-foreground">Account Management</h1>
+          <p className="text-muted-foreground mt-2">Manage all user accounts and permissions</p>
         </div>
-        <Button>Add New User</Button>
+        <Button className="animate-button-hover">Add New User</Button>
       </div>
 
-      <Card>
+      <Card className="animate-card-hover">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>User Accounts</CardTitle>
+            <CardTitle>User Accounts ({filteredUsers.length})</CardTitle>
             <div className="flex items-center space-x-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   type="text"
                   placeholder="Search users..."
-                  className="pl-10 w-64"
+                  className="pl-10 w-64 transition-all duration-300 focus:w-72"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
+              <select 
+                className="px-3 py-2 border rounded-lg text-sm"
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                <option value="all">All Types</option>
+                <option value="volunteer">Volunteers</option>
+                <option value="organization">Organizations</option>
+                <option value="requestor">Requestors</option>
+              </select>
+              <select 
+                className="px-3 py-2 border rounded-lg text-sm"
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="banned">Banned</option>
+                <option value="warning">Warning</option>
+              </select>
             </div>
           </div>
         </CardHeader>
@@ -115,8 +140,8 @@ export const AccountManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {mockUsers.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
+                {filteredUsers.map((user, index) => (
+                  <tr key={user.id} className={`border-b border-border hover:bg-muted/50 transition-colors duration-200 animate-fade-in-up animate-stagger-${Math.min(index + 1, 4)}`}>
                     <td className="py-4 px-4">
                       <div className="flex items-center space-x-3">
                         <Avatar>
@@ -125,8 +150,8 @@ export const AccountManagement = () => {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-500">{user.email}</p>
+                          <p className="font-medium text-foreground">{user.name}</p>
+                          <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
                       </div>
                     </td>
@@ -140,17 +165,17 @@ export const AccountManagement = () => {
                         {user.status}
                       </Badge>
                     </td>
-                    <td className="py-4 px-4 text-gray-600">{user.joinDate}</td>
-                    <td className="py-4 px-4 text-gray-600">{user.posts}</td>
+                    <td className="py-4 px-4 text-muted-foreground">{user.joinDate}</td>
+                    <td className="py-4 px-4 text-muted-foreground">{user.posts}</td>
                     <td className="py-4 px-4">
-                      <span className={`font-medium ${user.warnings > 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                      <span className={`font-medium ${user.warnings > 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
                         {user.warnings}
                       </span>
                     </td>
                     <td className="py-4 px-4">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" className="animate-button-hover">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -167,7 +192,7 @@ export const AccountManagement = () => {
                             <Ban className="h-4 w-4 mr-2" />
                             Ban User
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem className="text-destructive">
                             <Trash2 className="h-4 w-4 mr-2" />
                             Delete Account
                           </DropdownMenuItem>

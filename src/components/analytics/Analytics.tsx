@@ -46,17 +46,17 @@ const chartConfig = {
 
 export const Analytics = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-500">Comprehensive insights into VSB platform performance</p>
+          <h1 className="text-3xl font-bold text-foreground">Analytics</h1>
+          <p className="text-muted-foreground">Comprehensive insights into VSB platform performance</p>
         </div>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="animate-card-hover animate-fade-in-up">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -69,7 +69,7 @@ export const Analytics = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-card-hover animate-fade-in-up animate-stagger-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Volunteers</CardTitle>
             <UserCheck className="h-4 w-4 text-muted-foreground" />
@@ -82,7 +82,7 @@ export const Analytics = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-card-hover animate-fade-in-up animate-stagger-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Posts</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -95,7 +95,7 @@ export const Analytics = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-card-hover animate-fade-in-up animate-stagger-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Engagement Rate</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
