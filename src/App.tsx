@@ -8,7 +8,9 @@ import { AdminLayout } from "./components/layout/AdminLayout";
 import { DashboardOverview } from "./components/dashboard/DashboardOverview";
 import { AccountManagement } from "./components/management/AccountManagement";
 import { PostManagement } from "./components/management/PostManagement";
+import { PostDetail } from "./components/management/PostDetail";
 import { GroupManagement } from "./components/management/GroupManagement";
+import { GroupDetail } from "./components/management/GroupDetail";
 import { VolunteerManagement } from "./components/management/VolunteerManagement";
 import { Analytics } from "./components/analytics/Analytics";
 import { Settings } from "./components/settings/Settings";
@@ -27,7 +29,9 @@ const App = () => (
             <Route index element={<DashboardOverview />} />
             <Route path="accounts" element={<AccountManagement />} />
             <Route path="posts" element={<PostManagement />} />
+            <Route path="posts/:id" element={<PostDetail />} />
             <Route path="groups" element={<GroupManagement />} />
+            <Route path="groups/:id" element={<GroupDetail />} />
             <Route path="volunteers" element={<VolunteerManagement />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="settings" element={<Settings />} />

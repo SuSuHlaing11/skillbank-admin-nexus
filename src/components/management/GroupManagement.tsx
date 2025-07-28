@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useNavigate } from 'react-router-dom';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -49,6 +50,8 @@ const mockGroups = [
 ];
 
 export const GroupManagement = () => {
+  const navigate = useNavigate();
+  
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'volunteer': return 'bg-blue-100 text-blue-800';
@@ -114,7 +117,7 @@ export const GroupManagement = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(`/admin/groups/${group.id}`)}>
                       <Eye className="h-4 w-4 mr-2" />
                       View Details
                     </DropdownMenuItem>
